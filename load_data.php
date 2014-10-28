@@ -1,4 +1,9 @@
 <?php
+
+/*
+ TODO : The total number of pages calculation is completely wrong.
+
+*/
 include "hidden/MedwatchDbConfig.php"; // password file
 
 const fda_get_request = 'http://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfMAUDE/Detail.CFM?MDRFOI__ID='; 
@@ -17,9 +22,10 @@ if($_GET['page']) {  // for testing only
    $MedwatchDbConfig = MedwatchDbConfig::getDbConfig(); 
     
    $sql_select_chunk = "SELECT * FROM medwatch_report WHERE report_source_code='P' ORDER BY date_received DESC LIMIT $start, $per_page";
-   $sql_row_count = "SELECT count(*) FROM medwatch_report";
+   $sql_row_count = "SELECT count(*) FROM medwatch_report WHERE report_source_code='P'";
               
     try { 
+        
         $dbh = new PDO("mysql:host=localhost;dbname=" . $MedwatchDbConfig['dbname'], $MedwatchDbConfig['dbuser'], $MedwatchDbConfig['passwd']);  
    
         $dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION ); 
@@ -91,7 +97,7 @@ EOD;
 
 function getBottomSlider($current_page, $total_records, $per_page) 
 {
-    $no_of_paginations = ceil($total_records / $per_page);
+    $no_of_paginations = ceil($total_records / $per_page); 
     
     $previous_btn = true;
 
@@ -127,6 +133,7 @@ function getBottomSlider($current_page, $total_records, $per_page)
       if ($no_of_paginations > 7) {
   
           $end_loop = 7;
+
       } else {
 
           $end_loop = $no_of_paginations;

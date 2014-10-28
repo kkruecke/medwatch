@@ -53,7 +53,7 @@ body{
 /* kurt: table stuff */
 #container {
    
-  width: 52em;
+  width: 52em; /* <-- Change this to increase width */
   margin: 0 auto; 
   border-radius: 5px 5px 5px 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -64,7 +64,7 @@ body{
     
 /*  font-family: Verdana, Geneva, sans-serif; */
     font-family: "Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;
-    font-size: 14px;
+    font-size: 14px; /*<-- Change this to increase report text size */
 }
 #container .data table th {
     padding-bottom: .9em;
