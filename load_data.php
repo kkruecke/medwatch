@@ -4,7 +4,7 @@
  TODO : The total number of pages calculation is completely wrong.
 
 */
-include "hidden/MedwatchDbConfig.php"; // password file
+include "hidden/Config.php"; // password file
 
 const fda_get_request = 'http://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfMAUDE/Detail.CFM?MDRFOI__ID='; 
 
@@ -19,14 +19,14 @@ if($_GET['page']) {  // for testing only
    $per_page = 5;
    $start = $per_page * ($current_page - 1);
        
-   $MedwatchDbConfig = MedwatchDbConfig::getDbConfig(); 
+   $Config = Config::getDbConfig(); 
     
    $sql_select_chunk = "SELECT * FROM medwatch_report WHERE report_source_code='P' ORDER BY date_received DESC LIMIT $start, $per_page";
    $sql_row_count = "SELECT count(*) FROM medwatch_report WHERE report_source_code='P'";
               
     try { 
         
-        $dbh = new PDO("mysql:host=localhost;dbname=" . $MedwatchDbConfig['dbname'], $MedwatchDbConfig['dbuser'], $MedwatchDbConfig['passwd']);  
+        $dbh = new PDO("mysql:host=localhost;dbname=" . $Config['dbname'], $Config['dbuser'], $Config['passwd']);  
    
         $dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION ); 
         
@@ -168,7 +168,7 @@ function getBottomSlider($current_page, $total_records, $per_page)
     
         if ($current_page == $i)
            // $msg .= "<li p='$i' style='color:#fff;background-color:#006699;' class='active'>{$i}</li>";
-            $msg .= "<li p='$i' style='color:#fff;background-color:#4acce2;' class='active'>{$i}</li>";
+            $msg .= "<li p='$i' style='color:#fff;background-color:" . Config::getBackgroundColor() .  "' class='active'>{$i}</li>";
         else
             $msg .= "<li p='$i' class='active'>{$i}</li>";
     }
