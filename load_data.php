@@ -167,7 +167,8 @@ function getBottomSlider($current_page, $total_records, $per_page)
     for ($i = $start_loop; $i <= $end_loop; $i++) {
     
         if ($current_page == $i)
-            $msg .= "<li p='$i' style='color:#fff;background-color:#006699;' class='active'>{$i}</li>";
+           // $msg .= "<li p='$i' style='color:#fff;background-color:#006699;' class='active'>{$i}</li>";
+            $msg .= "<li p='$i' style='color:#fff;background-color:#4acce2;' class='active'>{$i}</li>";
         else
             $msg .= "<li p='$i' class='active'>{$i}</li>";
     }
