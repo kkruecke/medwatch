@@ -76,7 +76,7 @@ $output = <<<EOD
      <!-- Table header -->
    <thead>
       <tr>
-       <th>Received</th>
+       <th>Date Received</th>
        <th>Report Id</th>
        <th>Report Text</th>
       </tr>
