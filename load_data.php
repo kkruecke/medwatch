@@ -54,7 +54,8 @@ if($_GET['page']) {  // for testing only
             $report = htmlentities($row['text_report']);
          
             $msg .= "<tr><td class='date'>$date_received</td><td class='key'>$mdr_key_link</td><td class='report'><blockquote>$report</blockquote></td></tr>\n";
-                 
+            // DEBUG: break after first row
+            break;
         }
     
     } catch (Exception $e) {
@@ -87,7 +88,8 @@ $output = <<<EOD
 </table>
 </div>
 EOD;
-
+    $debug_msg = strlen($output);
+    $debug = substr($debug_msg, 0, 30);
     echo $output;
        
     $slider = getBottomSlider($current_page, $total_records, $per_page);
