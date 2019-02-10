@@ -7,10 +7,10 @@
 include "hidden/Config.php"; // password file
 
 const fda_get_request = 'http://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfMAUDE/Detail.CFM?MDRFOI__ID='; 
-
 if($_POST['page']) {
     
     $current_page = $_POST['page'];
+
 /*
 if($_GET['page']) {  // for testing only
     
@@ -21,9 +21,9 @@ if($_GET['page']) {  // for testing only
        
    $Config = Config::getDbConfig(); 
     
-   $sql_select_chunk = "SELECT * FROM medwatch_report WHERE report_source_code='P' ORDER BY date_received DESC LIMIT $start, $per_page";
-   $sql_row_count = "SELECT count(*) FROM medwatch_report WHERE report_source_code='P'";
-              
+   $sql_select_chunk = "SELECT * FROM medwatch_report ORDER BY date_received DESC LIMIT $start, $per_page";
+   $sql_row_count = "SELECT count(*) FROM medwatch_report";
+                  
     try { 
         
         $dbh = new PDO("mysql:host=localhost;dbname=" . $Config['dbname'], $Config['dbuser'], $Config['passwd']);  
@@ -54,13 +54,35 @@ if($_GET['page']) {  // for testing only
             $report = htmlentities($row['text_report']);
          
             $msg .= "<tr><td class='date'>$date_received</td><td class='key'>$mdr_key_link</td><td class='report'><blockquote>$report</blockquote></td></tr>\n";
-            // DEBUG: break after first row
-            break;
+                 
         }
+// Debug start
+$debug_output = <<<EOD
+<h1 class="heading">LASIK Patient Adverse Event Reports to FDA</h1>        
+<div class='data'>
+<table>
+ <!-- Colgroup -->
+   
+     <!-- Table header -->
+   <thead>
+      <tr>
+       <th>Date Received</th>
+       <th>Report Id</th>
+       <th>Report Text</th>
+      </tr>
+   </thead>
+<tbody>
+    $msg
+</tbody>
+</table>
+</div>
+EOD;
+
+        file_put_contents("./output.txt", $debug_output);
+// Debug end
     
     } catch (Exception $e) {
         
-
         $msg = $e->getMessage();
         echo "<p>An Exception has occurred:</p>\n<p>$msg<p>\n";
         echo "<hr />\n";
@@ -88,8 +110,7 @@ $output = <<<EOD
 </table>
 </div>
 EOD;
-    $debug_msg = strlen($output);
-    $debug = substr($debug_msg, 0, 30);
+
     echo $output;
        
     $slider = getBottomSlider($current_page, $total_records, $per_page);

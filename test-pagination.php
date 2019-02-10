@@ -9,7 +9,7 @@
         <meta name="description" content="Your description">
         <meta name="keywords" content="medwatch fda adverse event patient LASIK">
         <link rel="stylesheet" type="text/css" href="styles/pagination.css" media="screen" />
-       <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> 
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> -->
         <script type="text/javascript">
             $(document).ready(function(){
                 function loading_show(){
