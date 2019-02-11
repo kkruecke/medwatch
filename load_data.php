@@ -18,7 +18,7 @@ if(isset($_GET['page'])) {  // for debug and testing only
     $current_page = 1;
 }
 */
-  $per_page = 7;
+  $per_page = 8;
 
   $start = $per_page * ($current_page - 1);
        

@@ -1,7 +1,4 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!-- This is a pagination script using Jquery, Ajax and PHP
-     The enhancements done in this script pagination with first,last, previous, next buttons -->
-
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
