@@ -9,7 +9,8 @@
         <meta name="description" content="Your description">
         <meta name="keywords" content="medwatch fda adverse event patient LASIK">
         <link rel="stylesheet" type="text/css" href="styles/pagination.css" media="screen" />
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> 
+       <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>  -->
+       <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
         <script type="text/javascript">
             $(document).ready(function(){
                 function loading_show(){
@@ -32,15 +33,22 @@
                                 loading_hide();
                                 $("#container").html(msg);
                             });
+                        },
+                        error: function(msg)
+                        {
+                            console.log(msg);
                         }
                     });
                 }
                 loadData(1);  // For first time page load default results
-                $('#container .pagination li.active').live('click',function(){ 
+             /* $('#container .pagination li.active').live('click',function(){ */
+                $('#container .pagination li.active').on('click',function(){
                     var page = $(this).attr('p');
                     loadData(page);
+                    
                 });           
-                $('#go_btn').live('click',function(){
+             /* $('#go_btn').live('click',function(){ */
+                $('#go_btn').on('click',function(){
                     var page = parseInt($('.goto').val());
                     var no_of_pages = parseInt($('.total').attr('a'));
                     if(page != 0 && page <= no_of_pages){

@@ -1,23 +1,26 @@
 <?php
 
-/*
- TODO : The total number of pages calculation is completely wrong.
-
-*/
 include "hidden/Config.php"; // password file
 
 const fda_get_request = 'http://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfMAUDE/Detail.CFM?MDRFOI__ID='; 
-if($_POST['page']) {
+
+if(isset($_POST['page'])) {  // for testing only
     
     $current_page = $_POST['page'];
-
+} else {
+    $current_page = 1;
+}
 /*
-if($_GET['page']) {  // for testing only
+if(isset($_GET['page'])) {  // for debug and testing only
     
     $current_page = $_GET['page'];
+} else {
+    $current_page = 1;
+}
 */
-   $per_page = 5;
-   $start = $per_page * ($current_page - 1);
+  $per_page = 6;
+
+  $start = $per_page * ($current_page - 1);
        
    $Config = Config::getDbConfig(); 
     
@@ -78,8 +81,7 @@ $debug_output = <<<EOD
 </div>
 EOD;
 
-        file_put_contents("./output.txt", $debug_output);
-// Debug end
+    //--file_put_contents("./output.txt", $debug_output); Debug code
     
     } catch (Exception $e) {
         
@@ -116,7 +118,7 @@ EOD;
     $slider = getBottomSlider($current_page, $total_records, $per_page);
     
     echo $slider;
-}
+//}
 
 function getBottomSlider($current_page, $total_records, $per_page) 
 {
