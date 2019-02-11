@@ -3,9 +3,13 @@
 <head>
 
 <title>LASIK Complications, Risks - Top 10 Reasons Not to Have LASIK</title>
+
 <meta name="description" content="LASIK complications, side effects, risks.  Problems of LASIK eye surgery. Post-LASIK dry eyes and poor night vision. PRK complications, PRK haze. Risks that LASIK surgeons don't disclose to prospective patients. LASIK disasters, LASIK complaints, LASIK dissatisfaction, refractive surgery in the military. ">
+
 <meta name="keywords" content="LASIK, risks, complications, laser, eye, surgery, disaster, problems, dry, pupils, night, vision, warning, satisfaction, dissatisfaction, iLASIK, IntraLASIK, IntraLase, bladeless, all-laser, blade-free, complaint, patients, flap, safety, cornea, refractive, medical, malpractice, lawsuits, flap, eyes, surgeons, side effects, harmful, long term, PRK haze, military ">
+
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+
 <link type="text/css" rel="stylesheet" title="B1" href="../LD.css">
         <link rel="stylesheet" type="text/css" href="styles/pagination.css" media="screen" />
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> 

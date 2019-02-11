@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 include "hidden/Config.php"; // password file
 
@@ -10,6 +11,7 @@ if(isset($_POST['page'])) {  // for testing only
 } else {
     $current_page = 1;
 }
+
 /*
 if(isset($_GET['page'])) {  // for debug and testing only
     
@@ -18,48 +20,37 @@ if(isset($_GET['page'])) {  // for debug and testing only
     $current_page = 1;
 }
 */
-  $per_page = 8;
+      
+function fetch_data(\PDO $pdo, int $per_page, $start_row) : string
+{
+   $sql_select_chunk = "SELECT * FROM medwatch_report where report_source_code='P' ORDER BY date_received DESC LIMIT $start_row, $per_page";
 
-  $start = $per_page * ($current_page - 1);
+   //--$sql_row_count = "SELECT count(*) FROM medwatch_report where report_source_code='P'";
        
-   $Config = Config::getDbConfig(); 
-    
-   $sql_select_chunk = "SELECT * FROM medwatch_report ORDER BY date_received DESC LIMIT $start, $per_page";
-   $sql_row_count = "SELECT count(*) FROM medwatch_report";
-                  
-    try { 
-        
-        $dbh = new PDO("mysql:host=localhost;dbname=" . $Config['dbname'], $Config['dbuser'], $Config['passwd']);  
-   
-        $dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION ); 
-        
-        $select_stmt_total = $dbh->query($sql_row_count);
-        
-        $total_records = (int) $select_stmt_total->fetchColumn();
-        
-        $select_stmt_block = $dbh->query($sql_select_chunk);
-                            
-        $msg = '';
+   $select_stmt_block = $pdo->query($sql_select_chunk);
+                       
+   $msg = '';
 
-        foreach ($select_stmt_block as $row) {
-            
-            $date_received = new DateTime($row['date_received']);
-                        
-            $date_to_show = $date_received->format('j M Y');
-            
-            $date_received = htmlentities($date_to_show);
-           
-            $mdr_key  = htmlentities($row['mdr_report_key']);
-         
-            // Turn the mdr_key into a html link
-            $mdr_key_link = '<a href="' . fda_get_request  . $mdr_key .'">' . $mdr_key .  '</a>'; 
-         
-            $report = htmlentities($row['text_report']);
-         
-            $msg .= "<tr><td class='date'>$date_received</td><td class='key'>$mdr_key_link</td><td class='report'><blockquote>$report</blockquote></td></tr>\n";
-                 
-        }
-// Debug start
+   foreach ($select_stmt_block as $row) {
+       
+       $date_received = new DateTime($row['date_received']);
+                   
+       $date_to_show = $date_received->format('j M Y');
+       
+       $date_received = htmlentities($date_to_show);
+      
+       $mdr_key  = htmlentities($row['mdr_report_key']);
+    
+       // Turn the mdr_key into a html link
+       $mdr_key_link = '<a href="' . fda_get_request  . $mdr_key .'">' . $mdr_key .  '</a>'; 
+    
+       $report = htmlentities($row['text_report']);
+    
+       $msg .= "<tr><td class='date'>$date_received</td><td class='key'>$mdr_key_link</td><td class='report'><blockquote>$report</blockquote></td></tr>\n";
+   }
+
+/*
+ Debug start
 $debug_output = <<<EOD
 <h1 class="heading">LASIK Patient Adverse Event Reports to FDA</h1>        
 <div class='data'>
@@ -81,16 +72,8 @@ $debug_output = <<<EOD
 </div>
 EOD;
 
-    //--file_put_contents("./output.txt", $debug_output); Debug code
-    
-    } catch (Exception $e) {
-        
-        $msg = $e->getMessage();
-        echo "<p>An Exception has occurred:</p>\n<p>$msg<p>\n";
-        echo "<hr />\n";
-        echo "<p>Stack Trace:</p><p>" . $e->getTrace() . "</p>\n";
-        exit();
-    }
+       file_put_contents("./output.txt", $debug_output); Debug code
+*/
     
 $output = <<<EOD
 <h1 class="heading">LASIK Patient Adverse Event Reports to FDA</h1>        
@@ -113,14 +96,54 @@ $output = <<<EOD
 </div>
 EOD;
 
-    echo $output;
-       
-    $slider = getBottomSlider($current_page, $total_records, $per_page);
-    
-    echo $slider;
-//}
+  return $output;
+}
 
-function getBottomSlider($current_page, $total_records, $per_page) 
+  $per_page = 8;
+
+  $start = $per_page * ($current_page - 1);
+
+  $Config = Config::getDbConfig(); 
+    
+try { 
+
+  $pdo = new PDO("mysql:host=localhost;dbname=" . $Config['dbname'], $Config['dbuser'], $Config['passwd']);  
+   
+  $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION ); 
+
+  $output = fetch_data($pdo, $per_page, $current_page);
+
+  echo $output;
+
+  if (isset($_SESSION['total_records'])) {
+
+     $total_records = $_SESSION['total_records'];
+
+  } else {
+
+      $sql_row_count = "SELECT count(*) FROM medwatch_report where report_source_code='P'";
+                      
+      $select_stmt_total = $pdo->query($sql_row_count);
+        
+      $total_records = (int) $select_stmt_total->fetchColumn();
+
+      $_SESSION['total_records'] = $total_records;
+  }
+           
+  $slider = getBottomSlider($current_page, $total_records, $per_page);
+    
+  echo $slider;
+
+} catch (Exception $e) {
+        
+        $msg = $e->getMessage();
+        echo "<p>An Exception has occurred:</p>\n<p>$msg<p>\n";
+        echo "<hr />\n";
+        echo "<p>Stack Trace:</p><p>" . $e->getTrace() . "</p>\n";
+        exit();
+}
+
+function getBottomSlider(int $current_page, int $total_records, int $per_page) : string
 {
     $no_of_paginations = ceil($total_records / $per_page); 
     
@@ -133,7 +156,7 @@ function getBottomSlider($current_page, $total_records, $per_page)
     $last_btn = true;
 
 /* ---------------Calculating the starting and ending values for the loop----------------------------------- */
-  if ($current_page >= 7) {
+   if ($current_page >= 7) {
   
       $start_loop = $current_page - 3;
   
@@ -146,12 +169,12 @@ function getBottomSlider($current_page, $total_records, $per_page)
           $start_loop = $no_of_paginations - 6;
           $end_loop = $no_of_paginations;
   
-  
       } else {
   
           $end_loop = $no_of_paginations;
       }
-  } else {
+
+   } else {
   
       $start_loop = 1;
   
@@ -164,67 +187,65 @@ function getBottomSlider($current_page, $total_records, $per_page)
           $end_loop = $no_of_paginations;
       }
   }
-    /* ----------------------------------------------------------------------------------------------------------- */
-    $msg = "<div class='pagination'><ul>";
+  /* ----------------------------------------------------------------------------------------------------------- */
+  $msg = "<div class='pagination'><ul>";
     
-    // FOR ENABLING THE FIRST BUTTON
-    if ($first_btn && $current_page > 1) {
+  // FOR ENABLING THE FIRST BUTTON
+  if ($first_btn && $current_page > 1) {
 
-        $msg .= "<li p='1' class='active'>First</li>";
+      $msg .= "<li p='1' class='active'>First</li>";
 
-    } else if ($first_btn) {
+  } else if ($first_btn) {
 
-        $msg .= "<li p='1' class='inactive'>First</li>";
-
-    }
-    
-    // FOR ENABLING THE PREVIOUS BUTTON
-    if ($previous_btn && $current_page > 1) {
+      $msg .= "<li p='1' class='inactive'>First</li>";
+  }
+  // For enabling the 'previous' button.
+  if ($previous_btn && $current_page > 1) {
 
         $pre = $current_page - 1;
         $msg .= "<li p='$pre' class='active'>Previous</li>";
 
-    } else if ($previous_btn) {
+  } else if ($previous_btn) {
 
         $msg .= "<li class='inactive'>Previous</li>";
-    }
+  }
 
-    for ($i = $start_loop; $i <= $end_loop; $i++) {
+  for ($i = $start_loop; $i <= $end_loop; $i++) {
     
         if ($current_page == $i)
            // $msg .= "<li p='$i' style='color:#fff;background-color:#006699;' class='active'>{$i}</li>";
             $msg .= "<li p='$i' style='color:#fff;background-color:" . Config::getBackgroundColor() .  "' class='active'>{$i}</li>";
         else
             $msg .= "<li p='$i' class='active'>{$i}</li>";
-    }
+  }
     
-    // TO ENABLE THE NEXT BUTTON
-    if ($next_btn && $current_page < $no_of_paginations) {
+  // TO ENABLE THE NEXT BUTTON
+  if ($next_btn && $current_page < $no_of_paginations) {
 
         $nex = $current_page + 1;
         $msg .= "<li p='$nex' class='active'>Next</li>";
 
-    } else if ($next_btn) {
+  } else if ($next_btn) {
 
         $msg .= "<li class='inactive'>Next</li>";
-    }
+  }
     
-    // TO ENABLE THE END BUTTON
-    if ($last_btn && $current_page < $no_of_paginations) {
+  // TO ENABLE THE END BUTTON
+  if ($last_btn && $current_page < $no_of_paginations) {
 
-        $msg .= "<li p='$no_of_paginations' class='active'>Last</li>";
+      $msg .= "<li p='$no_of_paginations' class='active'>Last</li>";
 
-    } else if ($last_btn) {
+  } else if ($last_btn) {
 
-        $msg .= "<li p='$no_of_paginations' class='inactive'>Last</li>";
+      $msg .= "<li p='$no_of_paginations' class='inactive'>Last</li>";
 
-    }
+  }
 
-    $goto = "<input type='text' class='goto' size='1' style='margin-top:-1px;margin-left:60px;'/><input type='button' id='go_btn' class='go_button' value='Go'/>";
+  $goto = "<input type='text' class='goto' size='1' style='margin-top:-1px;margin-left:60px;'/><input type='button' id='go_btn' class='go_button' value='Go'/>";
 
-    $total_string = "<span class='total' a='$no_of_paginations'>Page <b>" . $current_page . "</b> of <b>$no_of_paginations</b></span>";
+  $total_string = "<span class='total' a='$no_of_paginations'>Page <b>" . $current_page . "</b> of <b>$no_of_paginations</b></span>";
 
-    $msg = $msg . "</ul>" . $goto . $total_string . "</div>";  // Content for pagination
+  $msg = $msg . "</ul>" . $goto . $total_string . "</div>";  // Content for pagination
 
-    return $msg;
+  return $msg;
 }
