@@ -25,8 +25,6 @@ function fetch_data(\PDO $pdo, int $per_page, $start_row) : string
 {
    $sql_select_chunk = "SELECT * FROM medwatch_report where report_source_code='P' ORDER BY date_received DESC LIMIT $start_row, $per_page";
 
-   //--$sql_row_count = "SELECT count(*) FROM medwatch_report where report_source_code='P'";
-       
    $select_stmt_block = $pdo->query($sql_select_chunk);
                        
    $msg = '';
@@ -50,7 +48,8 @@ function fetch_data(\PDO $pdo, int $per_page, $start_row) : string
    }
 
 /*
- Debug start
+ Debug Code
+
 $debug_output = <<<EOD
 <h1 class="heading">LASIK Patient Adverse Event Reports to FDA</h1>        
 <div class='data'>
@@ -72,7 +71,7 @@ $debug_output = <<<EOD
 </div>
 EOD;
 
-       file_put_contents("./output.txt", $debug_output); Debug code
+    file_put_contents("./output.txt", $debug_output); 
 */
     
 $output = <<<EOD
@@ -80,7 +79,6 @@ $output = <<<EOD
 <div class='data'>
 <table>
  <!-- Colgroup -->
-   
      <!-- Table header -->
    <thead>
       <tr>
@@ -99,21 +97,9 @@ EOD;
   return $output;
 }
 
-  $per_page = 8;
-
-  $start = $per_page * ($current_page - 1);
-
-  $Config = Config::getDbConfig(); 
-    
-try { 
-
-  $pdo = new PDO("mysql:host=localhost;dbname=" . $Config['dbname'], $Config['dbuser'], $Config['passwd']);  
-   
-  $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION ); 
-
-  $output = fetch_data($pdo, $per_page, $current_page);
-
-  echo $output;
+function getTotalRecords(\PDO $pdo) : int
+{
+  $total_records;
 
   if (isset($_SESSION['total_records'])) {
 
@@ -129,18 +115,7 @@ try {
 
       $_SESSION['total_records'] = $total_records;
   }
-           
-  $slider = getBottomSlider($current_page, $total_records, $per_page);
-    
-  echo $slider;
-
-} catch (Exception $e) {
-        
-        $msg = $e->getMessage();
-        echo "<p>An Exception has occurred:</p>\n<p>$msg<p>\n";
-        echo "<hr />\n";
-        echo "<p>Stack Trace:</p><p>" . $e->getTrace() . "</p>\n";
-        exit();
+  return $total_records;
 }
 
 function getBottomSlider(int $current_page, int $total_records, int $per_page) : string
@@ -213,7 +188,6 @@ function getBottomSlider(int $current_page, int $total_records, int $per_page) :
   for ($i = $start_loop; $i <= $end_loop; $i++) {
     
         if ($current_page == $i)
-           // $msg .= "<li p='$i' style='color:#fff;background-color:#006699;' class='active'>{$i}</li>";
             $msg .= "<li p='$i' style='color:#fff;background-color:" . Config::getBackgroundColor() .  "' class='active'>{$i}</li>";
         else
             $msg .= "<li p='$i' class='active'>{$i}</li>";
@@ -248,4 +222,35 @@ function getBottomSlider(int $current_page, int $total_records, int $per_page) :
   $msg = $msg . "</ul>" . $goto . $total_string . "</div>";  // Content for pagination
 
   return $msg;
+}
+
+  $per_page = 8;
+
+  $start = $per_page * ($current_page - 1);
+
+  $Config = Config::getDbConfig(); 
+    
+try { 
+
+  $pdo = new PDO("mysql:host=localhost;dbname=" . $Config['dbname'], $Config['dbuser'], $Config['passwd']);  
+   
+  $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION ); 
+
+  $output = fetch_data($pdo, $per_page, $current_page);
+
+  echo $output;
+
+  $total_records = getTotalRecords($pdo);
+         
+  $slider = getBottomSlider($current_page, $total_records, $per_page);
+    
+  echo $slider;
+
+} catch (Exception $e) {
+        
+        $msg = $e->getMessage();
+        echo "<p>An Exception has occurred:</p>\n<p>$msg<p>\n";
+        echo "<hr />\n";
+        echo "<p>Stack Trace:</p><p>" . $e->getTrace() . "</p>\n";
+        exit();
 }
