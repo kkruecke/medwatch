@@ -41,6 +41,7 @@ if(isset($_GET['page'])) {  // for debug and testing only
         $select_stmt_block = $dbh->query($sql_select_chunk);
                             
         $msg = '';
+
         foreach ($select_stmt_block as $row) {
             
             $date_received = new DateTime($row['date_received']);

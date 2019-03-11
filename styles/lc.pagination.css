@@ -12,13 +12,19 @@ body{
     margin-top:200px;
 }
 
-#container {
- background-color: white;  /* kurt */
- 
+#datacontainer {
+ background-color: white;  /* kurt */  
+  /*width: 52em; /* <-- Change this to increase width */
+/* 2-10-2019 9:55 pm
+  margin: 0 auto; 
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  padding-bottom: 15px;
+*/
 }
 /*
-#container .pagination ul li.inactive,
-#container .pagination ul li.inactive:hover {
+#datacontainer .pagination ul li.inactive,
+#datacontainer .pagination ul li.inactive:hover {
     background-color:#ededed;
     color:#bababa;
     border:1px solid #bababa;
@@ -26,7 +32,7 @@ body{
 }
 */
 
-#container h1.heading { 
+#datacontainer h1.heading { 
     text-align: center;
     font-size: 24px;
     color:#cc0000;
@@ -41,7 +47,7 @@ body{
 }
 
 /*
-#container .data ul li {
+#datacontainer .data ul li {
     list-style: none;
     font-family: verdana;
     margin: 5px 0 5px 0;
@@ -50,41 +56,31 @@ body{
 }
 */
 
-/* kurt: table stuff */
-#container {
-   
-  width: 52em; /* <-- Change this to increase width */
-  margin: 0 auto; 
-  border-radius: 5px 5px 5px 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  padding-bottom: 15px;
-}
-
-#container .data table {
+#datacontainer .data table {
     
 /*  font-family: Verdana, Geneva, sans-serif; */
     font-family: "Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;
     font-size: 14px; /*<-- Change this to increase report text size */
 }
-#container .data table th {
+#datacontainer .data table th {
     padding-bottom: .9em;
     vertical-align: bottom;
 }
-#container .data table td.date {
+#datacontainer .data table td.date {
     vertical-align: top;
     text-align: center;
     width: 15%;
 }
-#container .data table td.key {
+#datacontainer .data table td.key {
     vertical-align: top;
     text-align: center;
     width: 10%;
 }
-#container .data table td.report {
+#datacontainer .data table td.report {
     
 }
 
-#container .data table td blockquote { /* Kurt */
+#datacontainer .data table td blockquote { /* Kurt */
   border-left: 2px solid #c00000;
   padding: 5px 15px;
   text-align: justify;
@@ -92,46 +88,57 @@ body{
   font-size: large;
 }
 
-#container .data table td blockquote:before { /* Kurt */
+#datacontainer .data table td blockquote:before { /* Kurt */
 
  content: open-quote;
 }
 
-#container .data table td blockquote:after { /* Kurt */
+#datacontainer .data table td blockquote:after { /* Kurt */
 
  content: close-quote;
 }
 
-#container .pagination {
+#datacontainer .pagination {
     width: 800px;
     height: 25px;
 }
 
-#container .pagination ul li{
+#datacontainer .pagination ul li{
     list-style: none;
     float: left;
-    border: 1px solid #006699;
+ /* border: 1px solid #006699; */
+    border: 1px solid #c2c2c2;
     padding: 2px 6px 2px 6px;
     margin: 0 3px 0 3px;
     font-family: arial;
     font-size: 14px;
-    color: #006699;
+ /* color: #006699; */
+    color: black;
     font-weight: bold;
-    background-color: #f2f2f2;
+/*  background-color: #f2f2f2; */
+    background-color: white;
 }
-#container .pagination ul li:hover {
+#datacontainer .pagination ul li:hover {
     color: #fff;
-    background-color: #006699;
+/*  background-color: #006699;*/
+    background-color: #4acce2;
     cursor: pointer;
 }
 
 .go_button {
 
-  background-color:#f2f2f2;border:1px solid #006699;color:#cc0000;padding:2px 6px 2px 6px;cursor:pointer;position:absolute;margin-top:-1px;
+    background-color: #f2f2f2;
+    border: 1px solid #006699;
+    color: #cc0000;
+    padding: 2px 6px 2px 6px;
+    cursor: pointer;
+    position: absolute;
+    margin-top: -1px;
 }
 
 .total {
 
-  float:right;font-family:arial;color:#999;
+    float: right;
+    font-family: arial;
+    color:#999;
 }
-

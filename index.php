@@ -1,12 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<HTML>
-<head>
-
-<title>LASIK Complications, Risks - Top 10 Reasons Not to Have LASIK</title>
-<meta name="description" content="LASIK complications, side effects, risks.  Problems of LASIK eye surgery. Post-LASIK dry eyes and poor night vision. PRK complications, PRK haze. Risks that LASIK surgeons don't disclose to prospective patients. LASIK disasters, LASIK complaints, LASIK dissatisfaction, refractive surgery in the military. ">
-<meta name="keywords" content="LASIK, risks, complications, laser, eye, surgery, disaster, problems, dry, pupils, night, vision, warning, satisfaction, dissatisfaction, iLASIK, IntraLASIK, IntraLase, bladeless, all-laser, blade-free, complaint, patients, flap, safety, cornea, refractive, medical, malpractice, lawsuits, flap, eyes, surgeons, side effects, harmful, long term, PRK haze, military ">
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
-<link type="text/css" rel="stylesheet" title="B1" href="../LD.css">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+        <title>LASIK Patient Adverse Event Reports to FDA</title>
+        <meta name="description" content="Your description">
+        <meta name="keywords" content="medwatch fda adverse event patient LASIK">
         <link rel="stylesheet" type="text/css" href="styles/pagination.css" media="screen" />
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> 
         <script type="text/javascript">
@@ -23,21 +21,21 @@
                     ({
                         type: "POST",
                         url: "load_data.php",
-                        data: "page="+page,
+                        data: "page=" + page,
                         success: function(msg)
                         {
-                            $("#datacontainer").ajaxComplete(function(event, request, settings)
+                            $("#container").ajaxComplete(function(event, request, settings)
                             {
                                 loading_hide();
-                                $("#datacontainer").html(msg);
+                                $("#container").html(msg);
                             });
                         }
                     });
                 }
                 loadData(1);  // For first time page load default results
-                $('#datacontainer .pagination li.active').live('click',function(){
+                $('#container .pagination li.active').live('click',function(){ 
                     var page = $(this).attr('p');
-                    loadData(page);                    
+                    loadData(page);
                 });           
                 $('#go_btn').live('click',function(){
                     var page = parseInt($('.goto').val());
@@ -53,43 +51,13 @@
                 });
             });
         </script>
-		<script type="text/javascript">
-
-		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', 'UA-21746595-1']);
-		  _gaq.push(['_trackPageview']);
-
-		  (function() {
-			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();
-
-		</script>
     </head>
-	<center>
     <body> 
-	<DIV id="colorborder">
-		<div id="container">
-			<div id="banner">
-				<p style="float:right"> <br>
-				Font:
-				<select name="SS" id="SS" onChange="setActiveStyleSheet(this.options[this.selectedIndex].value); return false;">
-				<option value="B1">Normal
-				<option value="B4">Large
-				<option value="B5">Larger
-				</select>
-				</p>
-			</div>
-			<div id="menu"> <a id="active" href="../index.htm">Home</a> <a href="../letters.htm">Letters</a> <a href="../news.htm">News</a> <a href="http://lasiknewswire.com/" target="_blank" onClick="alert('You are leaving the LASIKComplications.com site. Thank you for visiting. You will now be going to LasikNewsWire.com.')">Blog</a> <a href="../risks.htm">Complications</a> <a href="../simulations.htm">Images </a> <a href="../fda.htm">FDA</a> <a href="../lawsuits.htm">Legal</a> <a href="../largepupils.htm">Pupil Size</a> <a href="../dryeye.htm">Dry Eye</a> <a href="../marketing.htm">Marketing</a> <a href="../contactus.php">Contact</a> <a href="../Archives.htm">Archives</a> <a href="../links.htm" style="border-right:0px">Links </a> </div>
-			<div id="loading"></div>
-			<!-- LEFT COLUMN CONTENT STARTS HERE ::::::::::::::::::::::::::::::::::::::::::::-->
-			<div id="datacontainer">  
-				<div class="data"></div>
-				<div class="pagination"></div>			
-			</div>
-		</div>
-	</div>
+        <!--  <h1 class="heading">LASIK Patient Adverse Event Reports to FDA</h1> -->
+        <div id="loading"></div>
+        <div id="container">
+            <div class="data"></div>
+            <div class="pagination"></div>
+        </div>
     </body>
-</center>
 </html>

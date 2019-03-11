@@ -56,7 +56,6 @@
         <!--  <h1 class="heading">LASIK Patient Adverse Event Reports to FDA</h1> -->
         <div id="loading"></div>
         <div id="container">
-
             <div class="data"></div>
             <div class="pagination"></div>
         </div>
