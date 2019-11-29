@@ -50,7 +50,7 @@ if(isset($_GET['page'])) {  // for debug and testing only
             
             $date_received = htmlentities($date_to_show);
            
-            $mdr_key  = htmlentities($row['mdr_report_key']);
+            $mdr_key  = htmlentities($row['mdr_rkey']);
          
             // Turn the mdr_key into a html link
             $mdr_key_link = '<a href="' . fda_get_request  . $mdr_key .'">' . $mdr_key .  '</a>'; 
